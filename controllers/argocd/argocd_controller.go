@@ -327,7 +327,7 @@ func (r *ReconcileArgoCD) internalReconcile(ctx context.Context, request ctrl.Re
 			log.Error(err, "Failed to disable NamespaceManagement feature")
 			return reconcile.Result{}, argocd, argoCDStatus, err
 		}
-	} else if len(argocd.Spec.NamespaceManagement) == 0 {
+	} else if len(argocd.Spec.NamespaceManagement) == 0 && isNamespaceManagementEnabled() {
 		// Handle cleanup of NamespaceManagement RBAC when the feature is removed from the ArgoCD CR.
 		nsMgmtList := &argoproj.NamespaceManagementList{}
 		if err := r.List(context.TODO(), nsMgmtList); err != nil {
